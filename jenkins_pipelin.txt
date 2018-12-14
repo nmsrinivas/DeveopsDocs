@@ -1,0 +1,101 @@
+multiple branch Pipleline: in project code we have to write the pipepline code, unlike free style project
+
+create Jenkinsfile in git hub project
+
+pipeline {
+ agent any
+ stages{
+  stage('Checkout') {
+   steps {
+                git credentialsId: 'GITHUB', url: 'https://github.com/nmsrinivas/cicd-pipeline-gradle.git'
+        }
+    }
+  stage('Build') {
+   steps {
+   echo 'Running Build Automation'
+   sh './gradlew build --no-daemon'
+   archiveArtifacts artifacts: 'dist/sampleapp.zip'
+   }
+  }
+ }
+}
+
+
+select new item --> multibranch pipeline
+branch sources -> git 
+add url,
+username and password
+
+
+
+maven jenkins pipeline :
+pipeline {
+ agent any
+stages {
+  stage('CodeCheckOut') {
+    steps {
+      script {
+       checkout scm
+       def mvnHome = tool 'maven-3'
+       def javaHome = tool 'JAVA_1.8'
+       
+       }
+      }
+     }      
+      stage('Build customer app code'){
+        steps {
+        script {
+          try{
+          sh "mvn clean install -U -Dmaven.test.skip=true"
+           currentBuild.result = 'SUCCESS'
+          } catch(Exception err){
+          currentBuild.result = 'FAILURE'
+         }
+       }
+      }
+     }
+    }
+}
+     
+run shell command: for java
+sudo yum -y install unzip java-1.8.0-openjdk
+
+run shell command : for maven
+
+sudo yum -y install maven
+
+
+install from command in pipeline
+----------------------------
+
+pipeline {
+ agent any
+stages {
+  stage('CodeCheckOut') {
+    steps {
+      script {
+       checkout scm
+       /*def mvnHome = tool 'maven-3'
+       def javaHome = tool 'JAVA_1.8'*/  
+       }
+      }
+     }      
+      stage('Build customer app code'){
+        steps {
+        script {
+       sh 'sudo yum -y install unzip java-1.8.0-openjdk'
+       sh 'sudo yum -y install maven'
+       sh 'mvn clean install'
+       }
+      }
+     }
+    }
+}
+     }
+    }
+}
+        
+       
+       
+       
+        

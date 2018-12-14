@@ -1,0 +1,51 @@
+https://www.edureka.co/blog/what-is-docker-container  good notes
+
+sudo yum -y install docker
+sudo systemctl start docker
+sudo systemctl status docker
+sudo systemctl enable docker
+sudo systemctl status docker
+
+sudo docker run hello-world  (check in local hello-world image in local, if it will check from docker hub. (it will take 
+it from docker hub and put it in local)
+to make sure docker is running successfully).
+
+echo $USER (centos)
+sudo groupadd docker
+sudo usermod -aG docker $USER  ( after this command we need to duplicate session)
+docker run hello-world
+
+sudo systemctl restart docker  (hello world)
+docker images  (to see docker images in local)
+
+docker file :
+
+FROM node:carbon
+WORKDIR /usr/src/app              [it will create empty dir]
+COPY package*.json ./
+RUN npm install
+COPY .  .
+EXPOSE 3000
+CMD ["npm","start"]
+
+push the docker file
+
+sudo git clone https://github.com/nmsrinivas/cicd-pipeline-gradle.git   (clone to some dir like /opt/)
+
+sudo docker build -t nmsrinivas/sampleapp .       (build and it create the image)
+
+docker images          (show images)
+sudo docker run -p  8081:3000 -d nmsrinivas/sampleapp     (run the image, put it in container)
+sudo docker ps                    (check the image)
+
+
+docker ps -al       (it will give docker container and image info)
+docker exec -t d70ee3212230 bash
+docker stop d70ee3212230    (to stop the container)
+
+docker rmi d70ee3212230 -f   (to remove the image)
+
+ sudo docker logs -f 1f82c712fd75  ( to check the logs)
+
+
+
