@@ -98,6 +98,58 @@ Login Succeeded
 
 docker push  nmsrinivas/dockerjenkins
 
+------------------------------------
+
+docker pull nmsrinivas/dockerjenkins
+
+docker container run -d -p 8081:8080 -v /var/run/docker.sock:/var/run/docker.sock nmsrinivas/dockerjenkins
+
+add env variable : manage jenkins -> configure system -> add env environment varaiable
+
+pipeline {
+ agent any
+stages {
+  stage('CodeCheckOut') {
+    steps {
+      script {
+       checkout scm
+       /*def mvnHome = tool 'maven-3'
+       def javaHome = tool 'JAVA_1.8'*/  
+       }
+      }
+     }      
+      stage('Build customer app code'){
+        steps {
+        script {
+       /*sh 'sudo yum -y install unzip java-1.8.0-openjdk'*/
+       sh 'sudo apt-get update -y'
+       sh 'sudo apt -y install openjdk-8-jdk'
+      
+      /* sh 'sudo yum -y install maven'*/
+       sh 'sudo apt -y install maven'
+       sh 'mvn clean install -DskipTests'
+       }
+      }
+     }
+     stage('Docker Build') {
+      steps {
+       sh 'sudo docker build -t nmsrinivas/springbootapp .'
+       sh "sudo docker login -u=$env.dockerlogin -p=$env.password" 
+       sh 'sudo docker push nmsrinivas/springbootapp'
+       sh 'sudo docker run -p  3000:9080 -d nmsrinivas/springbootapp'
+      }
+    }
+}
+}
+
+
+
+
+
+
+
+
+
 
 
 
