@@ -66,3 +66,27 @@ spec:
 kubectl create -f nginx-deployment.yaml
 
 kubectl get pods
+
+kubectl get deployments
+kubectl delete deployments hello-minikube
+kubectl get services
+kubectl delete services hello-minikube
+
+https://stackoverflow.com/questions/36232906/how-to-access-private-docker-hub-repository-from-kubernetes-on-vagrant
+
+
+DOCKER_REGISTRY_SERVER=docker.io
+DOCKER_USER=nmsrinivas
+DOCKER_EMAIL=nmsrinivas@gmail.com
+DOCKER_PASSWORD=Kyathi@0802
+
+kubectl create secret docker-registry myregistrykey \
+  --docker-server=$DOCKER_REGISTRY_SERVER \
+  --docker-username=$DOCKER_USER \
+  --docker-password=$DOCKER_PASSWORD \
+  --docker-email=$DOCKER_EMAIL
+
+create the namespace :
+kubectl create namespace
+kubectl get ns
+kubectl create ns devops1
